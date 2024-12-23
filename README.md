@@ -22,7 +22,9 @@ channels available at the front panel at the X-, Y-, Z-, and U- connections.
 
 Only eight connections must be wired between the Mega 2560 and THE ANALOG
 THING as shown in the following table:
+
 |HYBRID port pin|description|Pin on Mega 2560|
+|---------------|-----------|----------------|
 |2|analog X output|AnalogIn 0|
 |4|analog Y output|AnalogIn 1|
 |6|analog Z output|AnalogIn 2|
@@ -53,3 +55,16 @@ void loop() {
   THAThc.shell();
 }
 ```
+
+This example assumes that the library `.h`- and `.cpp`- files reside in the 
+same directory as the actual application program. If the library files are 
+moved to the appropriate folder in the Arduino environment, the first line
+should read `#include <THAThc>`. The call to `THAThc.begin()` in `setup()` 
+instantiates a hybrid controller singleton that can then be used in the 
+following.
+
+The method `shell()` (called in `loop()`) provides an interactive shell to 
+control the analog computer.
+
+### Using the shell
+
