@@ -184,11 +184,11 @@ unsigned long THAThc_::set_op_time(unsigned long value) {      // Set time for o
   return _op_time = value;
 }
 
-unsigned long THAThc_::set_adc_plus(unsigned int value) {      // Set the raw ADC value representing +1
+unsigned int THAThc_::set_adc_plus(unsigned int value) {      // Set the raw ADC value representing +1
   return _adc_plus = value;
 }
 
-unsigned long THAThc_::set_adc_minus(unsigned int value) {     // Set the raw ADC value representing -1
+unsigned int THAThc_::set_adc_minus(unsigned int value) {     // Set the raw ADC value representing -1
   return _adc_minus = value;
 }
 

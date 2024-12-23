@@ -74,8 +74,8 @@ class THAThc_ {
       read_data();                            // Return data from the last single run with armed data logger
     unsigned long set_channels(unsigned int), // Set number of channels to be sampled by each call to sample_adc
       set_ic_time(unsigned long),             // Set IC time in milliseconds
-      set_op_time(unsigned long),             // Set OP time in milliseconds
-      set_adc_minus(unsigned int),            // Set value corresponding to a sampled value of -1
+      set_op_time(unsigned long);             // Set OP time in milliseconds
+    unsigned int set_adc_minus(unsigned int), // Set value corresponding to a sampled value of -1
       set_adc_plus(unsigned int);             // Set value corresponding to a sampled value of +1
   private:
     THAThc_() = default;                      // Constructor

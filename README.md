@@ -207,4 +207,62 @@ single run.
 
 `block()` waits for the termination of the current single run.
 
-`disable()` disables the hybrid controller.
+`disable()` disables the hybrid controller (this also activates the manual
+control on the front panel of the analog computer).
+
+`enable()` enables the hybrid controller (this in turns deactivates the manual
+control on the front panel of the analog computer).
+
+`halt()` halts the analog computer, i.e., the integrators stop and hold their
+last value (over time they will drift, so HALT mode should not be used for 
+extended periods of time as the values will degrade).
+
+`get_status(char *)` returns the current settings of the hybrid controller
+and expects a pointer to a char array to hold this information.
+
+`ic()` sets the analog computer to initial condition mode.
+
+`op()` sets the analog computer to operate mode, i.e., the integrators will
+run continuously.
+
+`rep()` initates a sequence of IC/OP cycles. This mode is ideal for displaying
+a (more or less flickerfree display on an oscilloscope - depending on the 
+IC- and OP-times set previously).
+> [!NOTE]
+> Changing IC- or OP-times during repetitive mode takes effect immediately! 
+> There is no need to halt the computer and change back to repetitive mode
+> again.
+
+`sample_adc(float *)` samples one to four of the analog-digital-converters 
+once. It expects a pointer to an array of one to four floats where the 
+results will be stored.
+
+> [!NOTE]
+> `sample_adc_raw(unsigned int *)` works similarly to `sample_adc(...)` but
+> without the conversion of the read values to floats. This method should 
+> not normally be used.
+
+`unsigned long set_channels(unsigned int)` is called to set the number of
+channels used for data gathering.
+
+`unsigned long set_ic_time(unsigned long)` sets the IC-time in milliseconds.
+
+`unsigned long set_op_time(unsigned long)` sets the OP-time in milliseconds.
+
+> [!NOTE]
+> `unsigned int set_adc_plus(unsigned int)` and 
+> `unsigned int set_adc_minus(unsigned int)` can be used to calibrate the 
+> analog digital conversion. The library contains standard values corresponding
+> to +1 and -1 on the analog computer which should work fine in most cases.
+> If these values are not sufficient, the values +1 and -1 should be patched 
+> to the X- and Y-jacks on the analog computer. Then `set_channels(2)` 
+> followed by a suitable call to `sample_adc_raw(...)` should be invoked. The
+> values returned should then be fed as parameters to these two functions,
+> thus overriding the default values in the library.
+
+`shell()` invokes an interactive shell.
+
+`single_run()` executes a single IC/OP cycle with IC- and OP-times as set 
+before.
+
+
