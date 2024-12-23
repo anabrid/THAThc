@@ -121,7 +121,9 @@ interest. In this case the ADC channels can be sampled once with the command
 
 `rep` will repeat IC/OP cycles with the times set with `ictime=` and 
 `optime=`. This mode is especially useful to produce pictures on an attached
-oscilloscope. Data cannot be gathered during repetitive runs. 
+oscilloscope.
+> [!NOTE]
+> Data cannot be gathered during repetitive runs. 
 
 `status` returns some basic status information about the hybrid controller
 settings, while `help` will display some basic information on the available
