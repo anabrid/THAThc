@@ -40,7 +40,7 @@ ANALOG THING, so they can be connected directly to the microcontroller.
 > [!WARNING]
 > Although the hybrid port of THE ANALOG THING also has a pin connected to the 
 > +5 V line of the analog computer, do not power it from the +5 V of the 
-> Arduino as its power draw is too big.
+> Arduino as its power draw is too big for the Arduino to handle.
 
 ## Software
 The Arduino library for the hybrid controller can be found 
@@ -198,3 +198,7 @@ the Arduino IDE for further processing.
 
 At the end of this `for`-loop the microcontroller is "halted" in a rather ugly
 way but there is nothing more for it to do.
+
+### THAThc methods:
+`arm()`{:.ruby} arms the data logger which will be activated during the next
+single run.
