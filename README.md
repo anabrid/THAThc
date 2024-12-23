@@ -37,6 +37,10 @@ THING as shown in the following table:
 These connections were made on a piggy back board as shown in the picture above.
 The analog output lines are level compatible due to level shifters on THE
 ANALOG THING, so they can be connected directly to the microcontroller.
+> [!WARNING]
+> Although the hybrid port of THE ANALOG THING also has a pin connected to the 
+> +5 V line of the analog computer, do not power it from the +5 V of the 
+> Arduino as its power draw is too big.
 
 ## Software
 The Arduino library for the hybrid controller can be found 
