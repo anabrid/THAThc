@@ -40,7 +40,7 @@ ANALOG THING, so they can be connected directly to the microcontroller.
 
 ## Software
 The Arduino library for the hybrid controller can be found 
-[here]{THAThc}. It offers an object based interface to the hybrid controller as
+[here](THAThc). It offers an object based interface to the hybrid controller as
 shown in the following code example:
 ```
 #include "THAThc.h"
