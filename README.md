@@ -115,6 +115,10 @@ By default only one data channel is sampled (connected to the X-jack on the
 patch panel). If, e.g., four channels (the maximum) are to be sampled this
 can be set by `channels=4` before arming the data logger.
 
+In some cases only the value(s) at the end of an analog computer run are of 
+interest. In this case the ADC channels can be sampled once with the command
+`sample`.
+
 `rep` will repeat IC/OP cycles with the times set with `ictime=` and 
 `optime=`. This mode is especially useful to produce pictures on an attached
 oscilloscope. Data cannot be gathered during repetitive runs. 
@@ -123,3 +127,68 @@ oscilloscope. Data cannot be gathered during repetitive runs.
 settings, while `help` will display some basic information on the available
 commands.
 
+### Automatic control of the analog computer
+As useful as the shell is, some problems require more intricate control of
+the analog computer. Basically this is possible with the shell, too, sending
+commands via the serial line and listening for answers but the unaviodable
+latencies caused by the USB communication slow things down considerably.
+
+Accordingly, the THAThc-library offers all of the shell commands as callable
+methods, thus making it possible to implement a "real" hybrid computer setup.
+
+The following example shows how these methods are used in an actual problem:
+THE ANALOG THING in this case gets some external input and is run repeatedly,
+with data being gathered after each single run and printed to the serial 
+console from where it can be copied for further processing.
+```
+#include "THAThc.h"
+#define BAUD_RATE             250000
+
+void setup() {
+  Serial.begin(BAUD_RATE);
+  THAThc.begin();
+}
+
+void loop() {
+  THAThc.enable();            // Configure the hybrid controller
+  THAThc.set_ic_time(1);
+  THAThc.set_op_time(2);
+  THAThc.set_channels(1);
+
+  // Perform repetitive runs and sample result at the end of each run
+  for (unsigned long i = 0; i < 2000; i++) {
+    THAThc.single_run();
+    THAThc.block();
+
+    // We are only interested in the last value of the time integration
+    float result;
+    THAThc.sample_adc(&result);
+    Serial.print(String(i) + "\t");
+    Serial.print(result, 3);
+    Serial.print("\n");
+  }
+
+  for( ; ; delay(1000));      // Stop
+}
+```
+After instantiating the THAThc singleton, the hybrid controller is enabled,
+and IC- and OP-times are set to one and two milliseconds. Since in this case
+only one ADC channel is of interest, this, too, is set explicitly for good
+measure.
+
+The individual IC/OP cycles are performed 2000 times within the central 
+`for`-loop. Since the actual timing control of the hybrid controller is done
+by hardware timers, methods such as `single_run()` immediately return as an 
+internal state machine takes care of the actual analog computer control. 
+Calling `block()` actively waits for the termination of the current run before
+progressing.
+
+After each IC/OP cycle the result of the analog computation is read by 
+invoking `sample_adc(&result)`. This method expects a pointer to an array of
+floats (one two four elements, depending on the number of channels to be 
+sampled). The result is then printed with three places of precision. This 
+data can then be copied from the window of the serial monitor being part of 
+the Arduino IDE for further processing.
+
+At the end of this `for`-loop the microcontroller is "halted" in a rather ugly
+way but there is nothing more for it to do.
