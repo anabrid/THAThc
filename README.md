@@ -200,5 +200,5 @@ At the end of this `for`-loop the microcontroller is "halted" in a rather ugly
 way but there is nothing more for it to do.
 
 ### THAThc methods:
-`arm()`{:.ruby} arms the data logger which will be activated during the next
+`arm()`{.ruby} arms the data logger which will be activated during the next
 single run.
