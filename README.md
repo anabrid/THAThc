@@ -67,4 +67,59 @@ The method `shell()` (called in `loop()`) provides an interactive shell to
 control the analog computer.
 
 ### Using the shell
+The shell expects simple commands via the serial line interface and is most
+easily accessed using the builtin serial monitor of the Arduino IDE which 
+must be set to the proper baud rate (default is 250000 baud) and `No line 
+ending`.
+
+To control the analog computer the hybrid controller must first be enabled 
+by typing `enable`. This deactivates the MODE switch on the front panel of 
+THE ANALOG THING. (`disable` will disable the hybrid controller again.)
+
+Simple manual control can be achieved using the commands `ic` (set initial
+condition), `op` (run the analog computer), and `halt` (halt the current 
+computation). 
+
+Much more interesting, though, are automatic modes such as single or repetitive
+run. Single run performs a single cycle of initial condition (IC) and 
+operate (OP) with IC- and OP-times controlled by the microcontroller. The 
+IC-time is set with `ictime=1` to one millisecond (this is sufficient if all
+integrators within a particular setup are running at their highest time scale
+factor), while OP-time is set accordingly with a command like `optime=5` to
+five milliseconds.
+
+Issuing a `run` command will perform a single IC/OP-cycle. In this mode it 
+is possible to automatically collect data from the analog computer run and 
+export it for further processing. The following example session shows how 
+this is done:
+```
+enable
+ictime=1
+optime=5
+arm
+run
+read
+```
+The first three commands are self explanatory. `arm` arms the data logger which
+will start when the analog computer is switched to OP mode. `run` performs a 
+single run with the specified IC- and OP-times. `read` reads the data gathered
+by the data logger.
+
+Due to the rather slow analog-digital-converters of the Arduino (things could
+be sped up by modifying the corresponding timer/counter settings) there is a 
+minimum sample interval of 110 microseconds imposed. For longer OP-times the
+sampling interval is automatically set based on the OP-time and the available
+memory for the data logger (2048 entries). 
+
+By default only one data channel is sampled (connected to the X-jack on the 
+patch panel). If, e.g., four channels (the maximum) are to be sampled this
+can be set by `channels=4` before arming the data logger.
+
+`rep` will repeat IC/OP cycles with the times set with `ictime=` and 
+`optime=`. This mode is especially useful to produce pictures on an attached
+oscilloscope. Data cannot be gathered during repetitive runs. 
+
+`status` returns some basic status information about the hybrid controller
+settings, while `help` will display some basic information on the available
+commands.
 
