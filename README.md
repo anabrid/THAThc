@@ -32,7 +32,7 @@ THING as shown in the following table:
 |9 and 10|GND|GND|
 |13|enable hybrid mode|D2|
 |14|Mode OP|D3|
-|17|Mode IC|D4|
+|16|Mode IC|D4|
 
 These connections were made on a piggy back board as shown in the picture above.
 The analog output lines are level compatible due to level shifters on THE
